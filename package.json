@@ -25,11 +25,17 @@
   "engines": {
     "node": ">=18"
   },
-  "author": "Calatayud Digital Solutions <info@calatayud-digital-solutions.es>",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Calatayud Digital Solutions (https://calatayud-digital-solutions.es)",
   "homepage": "https://manaforge.tools",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Calatayud-Digital-Solutions/cardmarket-csv-parser"
+    "url": "git+https://github.com/Calatayud-Digital-Solutions/cardmarket-csv-parser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Calatayud-Digital-Solutions/cardmarket-csv-parser/issues"
   },
   "license": "MIT",
   "keywords": [
@@ -41,6 +47,7 @@
     "parser",
     "moxfield",
     "manabox",
+    "commander",
     "collection"
   ],
   "devDependencies": {

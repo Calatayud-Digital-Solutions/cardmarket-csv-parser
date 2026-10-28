@@ -31,13 +31,19 @@ Sol Ring (V.1);2;Commander Masters;12,50;foil`;
 const rows = parseCardmarketCsv(csv);
 const ring = rows[0];
 
+ring.quantity; // 2
+ring.name; // "Sol Ring (V.1)"
+ring.set; // "Commander Masters"
+ring.setCode; // "" — "Edición" is the set name, not the set code
+ring.price; // 12.5
+ring.isFoil; // true
 cleanCardName(ring.name); // "Sol Ring"
 normalizeSetCode('XCMM'); // "cmm"
 normalizeCondition('EX'); // "LP"
 
 const detailed = parseCardmarketCsvDetailed(csv);
 detailed.delimiter; // ";"
-detailed.recordCount; // data rows, including rows later dropped for an empty name
+detailed.recordCount; // 1
 ```
 
 ## API
@@ -72,7 +78,7 @@ Lowercase the code and drop a leading `X` from four-letter extended-art codes. `
 
 ### `normalizeCondition(condition: string): string`
 
-Map marketplace condition codes (`MT`, `NM`, `EX`, `GD`, `LP`, `PL`, `MP`, `HP`, `PO`, `DMG`) to `NM`, `LP`, `MP`, `HP`, or `DMG`. Anything else becomes `NM`.
+Map marketplace condition codes (`MT`, `NM`, `EX`, `GD`, `LP`, `PL`, `MP`, `HP`, `PO`, `DMG`) to `NM`, `LP`, `MP`, `HP`, or `DMG`. The match is case-sensitive. Anything else becomes `NM`.
 
 ### `CsvFormatError`
 
@@ -82,6 +88,19 @@ Error thrown when the file has no recognizable name column.
 
 `cardmarketId`, `quantity`, `name`, `set`, `setCode`, `cn`, `condition`, `language`, `isFoil`, `price`, `rarity`.
 
-Foil is true for `true`, `foil`, `yes`, `1`, and `X`. Prices may use a comma as the decimal separator.
+Foil is true for `true`, `foil`, `yes`, `1`, and `X`. Prices may use a comma as the decimal separator. A missing condition column becomes `NM`. A missing quantity becomes `1`.
 
-Used in production by [ManaForge](https://manaforge.tools) — Built by [Calatayud Digital Solutions](https://calatayud-digital-solutions.es)
+## Supported formats
+
+- Cardmarket, Moxfield, and Manabox collection exports, including Spanish headers (`Nombre`, `Cantidad`, `Edición`, `Precio`, `Foil`).
+- Comma-separated, semicolon-separated, and tab-separated files.
+- Quoted fields that contain the separator, escaped quotes (`""`), or newlines.
+- A leading BOM.
+
+The header must include a card name column. `Edición` fills `set` (the set name). Set codes come from headers such as `Set Code` or `Edition Code`.
+
+## License
+
+MIT. See [LICENSE](./LICENSE).
+
+Used in production by [ManaForge](https://manaforge.tools), an AI deck builder for Magic: The Gathering. Built by [Calatayud Digital Solutions](https://calatayud-digital-solutions.es).
